@@ -2,7 +2,7 @@
 
 namespace BlazorServerLogin.Models
 {
-    public class UserModel
+    public class DisplayUserModel
     {
         [Required(ErrorMessage = "First name is required.")]
         [Display(Name = "First Name")]
