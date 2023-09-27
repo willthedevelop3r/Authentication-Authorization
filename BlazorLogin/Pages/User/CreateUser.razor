@@ -1,0 +1,63 @@
+﻿@page "/createuser"
+
+@using BlazorLogin.Models;
+@using DataAccessLibrary.Models;
+@using DataAccessLibrary.Repository;
+
+@inject IUserRepository _db;
+
+<h3>Create User</h3>
+
+<EditForm Model="@newUser" OnInvalidSubmit="@AddUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <InputText id="firstName" @bind-Value="newUser.FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <InputText id="lastName" @bind-Value="newUser.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="emailAddress">Email Address</label>
+        <InputText id="emailAddress" @bind-Value="newUser.EmailAddress" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="emailAddress">Password</label>
+        <InputText id="emailAddress" @bind-Value="newUser.PasswordHash" class="form-control" />
+    </div>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary mt-2">Create</button>
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    private List<UserModel> users;
+    private DisplayUserModel newUser = new DisplayUserModel();
+    private string error_message;
+
+   /*private async Task OnInitializedAsync()
+     {
+         users = await _db.GetUsers();
+     } */
+
+    private async Task AddUser()
+    {
+        UserModel u = new UserModel
+            {
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                PasswordHash = newUser.PasswordHash
+            };
+
+        await _db.CreateUser(u);
+    }
+
+
+}

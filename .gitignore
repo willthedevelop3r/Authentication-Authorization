@@ -6,6 +6,7 @@
 appsettings.Development.json
 appsettings.Production.json
 appsettings.json
+blazorlogin/appsettings.json
 blazorserverlogin/appsettings.json
 
 # User-specific files
