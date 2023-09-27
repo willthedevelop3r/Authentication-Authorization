@@ -14,7 +14,7 @@ namespace DataAccessLibrary.DataAccess
     {
         private readonly IConfiguration _config;
 
-        public string ConnectionStringName { get; set; } = "Default";
+        /*public string ConnectionStringName { get; set; } = "Default";*/
 
         public SqlDataAccess(IConfiguration configuration)
         {
@@ -23,7 +23,7 @@ namespace DataAccessLibrary.DataAccess
 
         public async Task<List<T>> LoadData<T, U>(string sql, U parameters)
         {
-            string connectionString = _config.GetConnectionString(ConnectionStringName)
+            string connectionString = _config.GetConnectionString("Default")
                          ?? throw new InvalidOperationException("Connection string not found.");
 
             using (IDbConnection connection = new SqlConnection(connectionString))
@@ -36,7 +36,7 @@ namespace DataAccessLibrary.DataAccess
 
         public async Task SaveData<T>(string sql, T parameters)
         {
-            string? connectionString = _config.GetConnectionString(ConnectionStringName);
+            string? connectionString = _config.GetConnectionString("Default");
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {

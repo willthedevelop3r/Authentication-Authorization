@@ -37,7 +37,7 @@ namespace BlazorLogin.Models
         [Required(ErrorMessage = "Confirmation of password is required.")]
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Your password and confirm password do not match.")]
+        [Compare("PasswordHash", ErrorMessage = "Your password and confirm password do not match.")]
         public string? ConfirmPassword { get; set; }
     }
 }

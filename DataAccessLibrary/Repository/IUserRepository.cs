@@ -6,5 +6,7 @@ namespace DataAccessLibrary.Repository
     {
         Task CreateUser(UserModel user);
         Task<List<UserModel>> GetUsers();
+
+        Task<bool> ValidateUser(string email, string password);
     }
 }
