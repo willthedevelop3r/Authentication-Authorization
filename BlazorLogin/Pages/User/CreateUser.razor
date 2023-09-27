@@ -26,8 +26,16 @@
         <InputText id="emailAddress" @bind-Value="newUser.EmailAddress" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="emailAddress">Password</label>
-        <InputText id="emailAddress" @bind-Value="newUser.PasswordHash" class="form-control" />
+        <label for="confirmEmail">Confirm Email</label>
+        <InputText id="confirmEmail" @bind-Value="newUser.ConfirmEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="newUser.PasswordHash" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <InputText id="confirmPassword" @bind-Value="newUser.ConfirmPassword" type="password" class="form-control" />
     </div>
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-primary mt-2">Create</button>
@@ -53,6 +61,7 @@
             {
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
+                Email = newUser.EmailAddress,
                 PasswordHash = newUser.PasswordHash
             };
 
