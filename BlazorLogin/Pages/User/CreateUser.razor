@@ -1,10 +1,11 @@
 ﻿@page "/createuser"
 
-@using BlazorLogin.Models;
-@using DataAccessLibrary.Models;
-@using DataAccessLibrary.Repository;
+@using BlazorLogin.Models
+@using DataAccessLibrary.Models
+@using System.Net.Http
+@using System.Net.Http.Json
 
-@inject IUserRepository _db;
+@inject HttpClient Http
 
 <h3>Create User</h3>
 
@@ -12,7 +13,6 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
 
-    
     <div class="form-group">
         <label for="firstName">First Name</label>
         <InputText id="firstName" @bind-Value="newUser.FirstName" class="form-control" />
@@ -41,6 +41,13 @@
         <button type="submit" class="btn btn-primary mt-2">Create</button>
     </div>
 
+    @if (!string.IsNullOrEmpty(error_message))
+    {
+        <div class="alert alert-danger mt-3">
+            @error_message
+        </div>
+    }
+
 </EditForm>
 
 
@@ -65,10 +72,18 @@
                 PasswordHash = newUser.PasswordHash
             };
 
-        await _db.CreateUser(u);
+        var response = await Http.PostAsJsonAsync("https://localhost:7190/api/user", u);
 
-        // Clear the form
-        newUser = new DisplayUserModel();
+        if (response.IsSuccessStatusCode)
+        {
+            // Handle success. For instance, show a success message or navigate to another page.
+            newUser = new DisplayUserModel();
+        }
+        else
+        {
+            // Handle the error. Maybe get an error message from the response and display it.
+            error_message = "An error occurred while creating the user.";
+        }
     }
 
 }

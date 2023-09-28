@@ -1,4 +1,4 @@
-﻿namespace DataAccessLibrary.Service
+﻿namespace WebApi.Password
 {
     public interface IPasswordHashingService
     {

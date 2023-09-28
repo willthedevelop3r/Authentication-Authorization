@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLibrary.Service
+namespace WebApi.Password
 {
     public class PasswordHashingService : IPasswordHashingService
     {
