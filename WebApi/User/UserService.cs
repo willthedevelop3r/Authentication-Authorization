@@ -1,7 +1,9 @@
 ﻿using DataAccessLibrary.Models;
 using DataAccessLibrary.Repository;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using WebApi.Password;
+using System.Collections.Generic;
 
 namespace WebApi.User
 {
@@ -16,6 +18,11 @@ namespace WebApi.User
             _passwordHashingService = passwordHashingService;
         }
 
+        public async Task<List<UserModel>> GetAllUsers()
+        {
+            return await _userRepository.GetAllUsers();
+        }
+
         public async Task CreateUser(UserModel user)
         {
             // Hash the user's password before sending it for storage
@@ -24,16 +31,17 @@ namespace WebApi.User
             // Save the user with hashed password
             await _userRepository.CreateUser(user);
         }
-
-        /*  public async Task<bool> ValidateUser(string email, string password)
-          {
-              string storedHashedPassword = await _userRepository.GetPasswordByEmail(email);
-
-              if (string.IsNullOrEmpty(storedHashedPassword))
-                  return false;
-
-              // Verify the provided password against the stored hash
-              return _passwordHashingService.VerifyPassword(password, storedHashedPassword);
-          }*/
+       
     }
 }
+
+/*  public async Task<bool> ValidateUser(string email, string password)
+         {
+             string storedHashedPassword = await _userRepository.GetPasswordByEmail(email);
+
+             if (string.IsNullOrEmpty(storedHashedPassword))
+                 return false;
+
+             // Verify the provided password against the stored hash
+             return _passwordHashingService.VerifyPassword(password, storedHashedPassword);
+         }*/

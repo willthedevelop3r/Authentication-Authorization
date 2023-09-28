@@ -5,6 +5,7 @@
 @using System.Net.Http
 @using System.Net.Http.Json
 
+@inject IConfiguration Configuration
 @inject HttpClient Http
 
 <h3>Create User</h3>
@@ -56,11 +57,17 @@
     private List<UserModel> users;
     private DisplayUserModel newUser = new DisplayUserModel();
     private string error_message;
+    private string USER_BASE_URL;
 
     /*protected override async Task OnInitializedAsync()
-     {
+         {
          users = await _db.GetUsers();
      } */
+
+    protected override void OnInitialized()
+    {
+        USER_BASE_URL = Configuration["ApiUrls:USER_BASE_URL"];
+    }
 
     private async Task AddUser()
     {
@@ -72,7 +79,7 @@
                 PasswordHash = newUser.PasswordHash
             };
 
-        var response = await Http.PostAsJsonAsync("https://localhost:7190/api/user", u);
+        var response = await Http.PostAsJsonAsync($"{USER_BASE_URL}/api/user", u);
 
         if (response.IsSuccessStatusCode)
         {
