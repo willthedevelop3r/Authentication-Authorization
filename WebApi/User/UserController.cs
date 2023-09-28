@@ -15,6 +15,12 @@ namespace WebApi.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        public async Task<List<UserModel>> GetAllUsers()
+        {
+            return await _userService.GetAllUsers();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {

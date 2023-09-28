@@ -20,9 +20,9 @@ namespace DataAccessLibrary.Repository
       
         }
 
-        public async Task<List<UserModel>> GetUsers()
+        public async Task<List<UserModel>> GetAllUsers()
         {
-            string sql = @"SELECT * FROM dbo.[User]";
+            string sql = @"SELECT UserId, Firstname, LastName, Email FROM dbo.[User]";
 
             return await _db.LoadData<UserModel, dynamic>(sql, new { });
         }
