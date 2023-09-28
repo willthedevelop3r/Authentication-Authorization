@@ -1,6 +1,3 @@
-using DataAccessLibrary.DataAccess;
-using DataAccessLibrary.Repository;
-using DataAccessLibrary.Service;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -9,9 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
+builder.Services.AddSingleton<HttpClient>();
 
 
 var app = builder.Build();
