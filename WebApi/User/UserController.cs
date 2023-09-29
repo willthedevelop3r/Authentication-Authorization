@@ -1,6 +1,7 @@
 ﻿using WebApi.User;
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLibrary.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -16,12 +17,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "OnlyAAAAIsAuthorized")]
         public async Task<List<UserModel>> GetAllUsers()
         {
             return await _userService.GetAllUsers();
         }
 
         [HttpPost]
+        [Authorize(Policy = "OnlyAAAAIsAuthorized")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {
             if (user == null)

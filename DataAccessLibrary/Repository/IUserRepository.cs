@@ -7,6 +7,7 @@ namespace DataAccessLibrary.Repository
     {
         Task<List<UserModel>> GetAllUsers();
         Task CreateUser(UserModel user);
+        Task<UserModel> GetUserByEmail(string email);
 
     }
 }
