@@ -31,17 +31,20 @@ namespace WebApi.User
             // Save the user with hashed password
             await _userRepository.CreateUser(user);
         }
-       
+
+        public async Task<UserModel> ValidateUser(string email, string password)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+
+            if (user == null)
+                return null;
+
+            // Verify the provided password against the stored hash
+            bool isPasswordValid = _passwordHashingService.VerifyPassword(password, user.PasswordHash);
+
+            return isPasswordValid ? user : null;
+        }
+
     }
 }
 
-/*  public async Task<bool> ValidateUser(string email, string password)
-         {
-             string storedHashedPassword = await _userRepository.GetPasswordByEmail(email);
-
-             if (string.IsNullOrEmpty(storedHashedPassword))
-                 return false;
-
-             // Verify the provided password against the stored hash
-             return _passwordHashingService.VerifyPassword(password, storedHashedPassword);
-         }*/
