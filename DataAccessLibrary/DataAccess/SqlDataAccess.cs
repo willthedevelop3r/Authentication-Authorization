@@ -16,9 +16,9 @@ namespace DataAccessLibrary.DataAccess
 
         /*public string ConnectionStringName { get; set; } = "Default";*/
 
-        public SqlDataAccess(IConfiguration configuration)
+        public SqlDataAccess(IConfiguration config)
         {
-            _config = configuration;
+            _config = config;
         }
 
         public async Task<List<T>> LoadData<T, U>(string sql, U parameters)

@@ -1,1 +1,1 @@
-# User Login - Password Hash
+# Authentication - Authorization

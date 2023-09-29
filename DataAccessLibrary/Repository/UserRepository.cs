@@ -20,6 +20,13 @@ namespace DataAccessLibrary.Repository
       
         }
 
+        public async Task<UserModel> GetUserByEmail(string email)
+        {
+            string sql = @"SELECT * FROM dbo.[User] WHERE Email = @Email";  // Assuming your table name is [User]
+            var user = await _db.LoadData<UserModel, dynamic>(sql, new { Email = email });
+            return user.FirstOrDefault(); // since LoadData might return a list, we want the first user or null
+        }
+
         public async Task<List<UserModel>> GetAllUsers()
         {
             string sql = @"SELECT UserId, Firstname, LastName, Email FROM dbo.[User]";
