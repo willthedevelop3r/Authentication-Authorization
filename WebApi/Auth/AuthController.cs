@@ -36,13 +36,13 @@ namespace WebApi.Auth
             }
 
             // 2. If user is valid, generate a JWT and return it.
-            var token = GenerateJwtToken(user); // This method will generate the JWT.
+            var token = GenerateJwtToken(user);
             return Ok(new { token });
         }
 
         private string GenerateJwtToken(UserModel user)
         {
-            var jwtSettings = _config.GetSection("Jwt").Get<JwtSettings>(); // Assuming you have a JwtSettings class
+            var jwtSettings = _config.GetSection("Jwt").Get<JwtSettings>();
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

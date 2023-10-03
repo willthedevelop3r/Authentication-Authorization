@@ -1,4 +1,4 @@
-﻿@page "/createuser"
+﻿@page "/user/create"
 
 @using BlazorLogin.Models
 @using DataAccessLibrary.Models
@@ -59,6 +59,7 @@
     private string error_message;
     private string BASE_URL;
 
+
     /*protected override async Task OnInitializedAsync()
          {
          users = await _db.GetUsers();
@@ -72,7 +73,7 @@
     private async Task AddUser()
     {
 
-        // Mapped User Model
+        // Map User Model
 
         UserModel u = new UserModel
             {
