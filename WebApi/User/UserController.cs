@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "OnlyAAAAIsAuthorized")]
+        /*[Authorize(Policy = "OnlyAAAAIsAuthorized")]*/
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {
             if (user == null)
