@@ -1,0 +1,43 @@
+﻿@page "/dashboard"
+
+@using BlazorWeb.Models
+@using BlazorWeb.Services;
+@using Microsoft.JSInterop
+@using System.Text.Json
+
+@inject IJSRuntime JSRuntime
+@inject IAuthenticationService AuthService
+@inject NavigationManager NavManager
+
+<h3>Welcome to the Dashboard!</h3>
+
+@if (currentUser != null)
+{
+    <p>Hello, @currentUser.FirstName @currentUser.LastName!</p>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+<button @onclick="HandleLogout">Logout</button>
+
+@code {
+    private DisplayUserModel currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var userJson = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "currentUser");
+        if (!string.IsNullOrEmpty(userJson))
+        {
+            currentUser = JsonSerializer.Deserialize<DisplayUserModel>(userJson);
+        }
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthService.Logout();
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "currentUser");
+        NavManager.NavigateTo("/login");
+    }
+}

@@ -1,0 +1,43 @@
+﻿@page "/login"
+@using BlazorWeb.Models
+@using BlazorWeb.Services
+@using System.Text.Json
+@using Microsoft.AspNetCore.Components.Authorization;
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject IAuthenticationService AuthService
+@inject AuthenticationStateProvider CustomAuthStateProvider
+
+<h3>Login</h3>
+
+<EditForm Model="loginRequest" OnValidSubmit="HandleLogin">
+    <InputText @bind-Value="loginRequest.Email" placeholder="Email" />
+    <InputText @bind-Value="loginRequest.Password" type="password" placeholder="Password" />
+    <button type="submit">Login</button>
+</EditForm>
+
+@code {
+    private LoginRequest loginRequest = new LoginRequest();
+
+    private async Task HandleLogin()
+    {
+        var (isAuthenticated, user) = await AuthService.Login(loginRequest);
+        if (isAuthenticated && user != null)
+        {
+            // Store user info in local storage
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "currentUser", JsonSerializer.Serialize(user));
+
+            // Notify the authentication state provider of the change
+            var authStateProvider = (CustomAuthenticationStateProvider)CustomAuthStateProvider;
+            authStateProvider.NotifyUserAuthentication(user.EmailAddress);
+
+            // Redirect to dashboard
+            NavigationManager.NavigateTo("/dashboard");
+        }
+        else
+        {
+            // Error message
+        }
+    }
+}

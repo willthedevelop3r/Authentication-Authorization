@@ -27,7 +27,6 @@ namespace WebApi.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest req)
         {
-            // 1. Check if user exists and password is correct using _userService.
             var user = await _userService.ValidateUser(req.Email, req.Password);
 
             if (user == null)
@@ -35,9 +34,35 @@ namespace WebApi.Auth
                 return Unauthorized("Invalid credentials.");
             }
 
-            // 2. If user is valid, generate a JWT and return it.
+            // Check for specific email
+          /*  if (user.Email.ToLower() != "a@a.com")
+            {
+                return Unauthorized("This user is not authorized to receive a token.");
+            }*/
+
             var token = GenerateJwtToken(user);
-            return Ok(new { token });
+
+            // Set the JWT as a cookie.
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true, // Ensure it's sent over HTTPS
+                Expires = DateTime.UtcNow.AddMinutes(_config.GetSection("Jwt").Get<JwtSettings>().DurationInMinutes)
+            };
+
+            Response.Cookies.Append("access_token", token, cookieOptions);
+
+            return Ok(new
+            {
+                Message = "Authentication successful.",
+                User = new
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email
+                    // Add any other relevant properties of the user you'd like to include in the response.
+                }
+            });
         }
 
         private string GenerateJwtToken(UserModel user)
@@ -65,6 +90,13 @@ namespace WebApi.Auth
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(securityToken);
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            return Ok(new { Message = "Logout successful." });
         }
     }
 }

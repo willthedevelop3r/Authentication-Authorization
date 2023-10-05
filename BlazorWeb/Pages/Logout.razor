@@ -1,0 +1,8 @@
+﻿@* public async Task Logout()
+{
+    var authStateProvider = (CustomAuthenticationStateProvider)AuthService;
+    authStateProvider.NotifyUserLogout();
+
+    await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "currentUser");
+    NavigationManager.NavigateTo("/login");
+} *@

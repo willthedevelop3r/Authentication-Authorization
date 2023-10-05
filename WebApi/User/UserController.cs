@@ -18,13 +18,14 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Authorize(Policy = "OnlyAAAAIsAuthorized")]
+        [Authorize]
         public async Task<List<UserModel>> GetAllUsers()
         {
             return await _userService.GetAllUsers();
         }
 
         [HttpPost]
-        /*[Authorize(Policy = "OnlyAAAAIsAuthorized")]*/
+        [Authorize(Policy = "OnlyAAAAIsAuthorized")]
         public async Task<IActionResult> CreateUser([FromBody] UserModel user)
         {
             if (user == null)
@@ -35,6 +36,7 @@ namespace WebApi.Controllers
             await _userService.CreateUser(user);
             return CreatedAtAction(nameof(CreateUser), user);
         }
+
 
     }
 }
